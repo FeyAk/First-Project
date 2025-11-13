@@ -1,0 +1,152 @@
+print("=" * 60)
+print("Willkommen beim Ring-Linien Fahrkartensystem")
+print("=" * 60)
+print("Ringlinie: A → B → C → D → E → F → G → H → A ...")
+print("\nVerfügbare Stationen:")
+print("  A: Hauptbahnhof")
+print("  B: Marktplatz")
+print("  C: Stadtpark")
+print("  D: Universität")
+print("  E: Krankenhaus")
+print("  F: Industriegebiet")
+print("  G: Flughafen")
+print("  H: Endstation")
+print()
+
+# Startstation
+while True:
+    start = input("Einstieg-Haltestelle (A-H): ").upper()
+    if start in ["A", "B", "C", "D", "E", "F", "G", "H"]:
+        break
+    else:
+        print("Ungültige Eingabe! Bitte A-H eingeben.\n")
+
+# Zielstation
+while True:
+    ziel = input("Ausstieg-Haltestelle (A-H): ").upper()
+    if ziel in ["A", "B", "C", "D", "E", "F", "G", "H"]:
+        break
+    else:
+        print("Ungültige Eingabe! Bitte A-H eingeben.\n")
+
+# Station Dictionaries
+station_nummern = {
+    "A": 0,
+    "B": 1,
+    "C": 2,
+    "D": 3,
+    "E": 4,
+    "F": 5,
+    "G": 6,
+    "H": 7
+}
+
+station_namen = {
+    "A": "Hauptbahnhof",
+    "B": "Marktplatz",
+    "C": "Stadtpark",
+    "D": "Universität",
+    "E": "Krankenhaus",
+    "F": "Industriegebiet",
+    "G": "Flughafen",
+    "H": "Endstation"
+}
+
+start_nummer = station_nummern[start]
+ziel_nummer = station_nummern[ziel]
+gesamt_stationen = len(station_namen)
+
+# Berechne beide Wege
+weg_vorwarts = (ziel_nummer - start_nummer) % gesamt_stationen
+weg_ruckwarts = (start_nummer - ziel_nummer) % gesamt_stationen
+
+# Wenn Start und Ziel gleich sind
+if start == ziel:
+    print("\n" + "=" * 60)
+    print("ROUTENOPTIONEN")
+    print("=" * 60)
+    print(f"Sie möchten eine vollständige Rundfahrt machen!")
+    print(f"Option 1: Im Uhrzeigersinn       - {gesamt_stationen} Station(en)")
+    print(f"Option 2: Gegen den Uhrzeigersinn - {gesamt_stationen} Station(en)")
+    print()
+
+    while True:
+        wahl = input("Welche Richtung bevorzugen Sie? Im Uhrzeigersinn (U) oder Gegen den Uhrzeigersinn (G)? ").upper()
+        if wahl in ["U", "G"]:
+            break
+        else:
+            print("Ungültige Eingabe! Bitte U oder G eingeben.\n")
+
+    distanz = gesamt_stationen
+    if wahl == "U":
+        richtung = "Im Uhrzeigersinn"
+    else:
+        richtung = "Gegen den Uhrzeigersinn"
+    route_typ = "Rundfahrt"
+else:
+    # Zeige beide Optionen
+    print("\n" + "=" * 60)
+    print("ROUTENOPTIONEN")
+    print("=" * 60)
+    print(f"Option 1: Im Uhrzeigersinn       - {weg_vorwarts} Station(en)")
+    print(f"Option 2: Gegen den Uhrzeigersinn - {weg_ruckwarts} Station(en)")
+    print()
+
+    # Frage nach Präferenz
+    while True:
+        wahl = input("Möchten Sie den kürzeren Weg (K) oder längeren Weg (L) nehmen? ").upper()
+        if wahl in ["K", "L"]:
+            break
+        else:
+            print("Ungültige Eingabe! Bitte K oder L eingeben.\n")
+
+    # Bestimme Route basierend auf Wahl
+    if wahl == "K":
+        if weg_vorwarts <= weg_ruckwarts:
+            distanz = weg_vorwarts
+            richtung = "Im Uhrzeigersinn"
+        else:
+            distanz = weg_ruckwarts
+            richtung = "Gegen den Uhrzeigersinn"
+        route_typ = "kürzeste"
+    else:  # L
+        if weg_vorwarts >= weg_ruckwarts:
+            distanz = weg_vorwarts
+            richtung = "Im Uhrzeigersinn"
+        else:
+            distanz = weg_ruckwarts
+            richtung = "Gegen den Uhrzeigersinn"
+        route_typ = "längere"
+
+# Preisberechnung - NUR 2 Preise
+if distanz <= 3:
+    preis = 2.50
+    ticket_typ = "Kurzstrecke"
+else:
+    preis = 5.00
+    ticket_typ = "Langstrecke"
+
+# Fahrschein ausgeben
+print("\n" + "=" * 60)
+print("FAHRSCHEIN - RINGLINIE")
+print("=" * 60)
+print(f"Von:      {start} - {station_namen[start]}")
+print(f"Nach:     {ziel} - {station_namen[ziel]}")
+print(f"Distanz:  {distanz} Station(en) ({route_typ} Route)")
+
+if distanz == 0:
+    print(f"\nTicket:   Keine Fahrt nötig")
+    print(f"Preis:    €{preis:.2f}")
+elif distanz <= 3:
+    print(f"\nTicket:   Kurzstrecke")
+    print(f"Preis:    €{preis:.2f}")
+else:
+    print(f"\nTicket:   Normalpreis")
+    print(f"Preis:    €{preis:.2f}")
+
+print("=" * 60)
+
+# Fahrtinformation
+if distanz > 0:
+    print(f"\nRichtung: {richtung}")
+    print(f"Sie fahren {distanz} Station(en) in Richtung {ziel}")
