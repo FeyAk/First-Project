@@ -1,0 +1,16 @@
+valid_stations = ["A", "B", "C", "D", "E", "F", "G", "H"]
+
+
+start_station = input("Bitte Ein_steig Haltestelle (A-H) eingeben: ").upper()
+end_station = input("Bitte Aus_steig Haltestelle (A-H) eingeben: ").upper()
+
+if start_station and end_station in valid_stations:
+   anzahl_stationen = abs(ord(start_station) - ord(end_station))
+
+   if anzahl_stationen <= 3:
+      print("Kurzstrecken Fahrkarte")
+   else: print("Normale Fahrkarte")
+else:
+        print("Ungültige Eingabe. Nur A bis H erlaubt.")
+
+
