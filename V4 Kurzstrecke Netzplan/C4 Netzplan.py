@@ -303,6 +303,9 @@ def starte_fahrkarten_automat():
         print_slow(Fore.RED + f"\n❌ Keine Route gefunden!")
         play_sound("error")
         sys.exit(1)
+    genutzte_umsteigepunkte = [station for station in route if station in UMSTEIGEPUNKTE]
+    if genutzte_umsteigepunkte:
+        print_slow(Fore.MAGENTA + f"🔄 Umsteigepunkte: {', '.join(genutzte_umsteigepunkte)}")
 
     anzahl_stationen = len(route) - 1
     print_slow(Fore.GREEN + f"✅ Route gefunden! Dauer: {anzahl_stationen} Stationen.")
