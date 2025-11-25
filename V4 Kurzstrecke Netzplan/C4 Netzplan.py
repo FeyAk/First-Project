@@ -136,7 +136,7 @@ def spinner(dauer=1.5, text="Suche kürzeste Route..."):
 
 
 def zeige_netzplan():
-    for name in ["netzplan.png", "ubahn_netzplan.png", "netzplan.jpg", "map.png", "ubahn_map.png"]:
+    for name in ["netzplan.png"]:
         if os.path.exists(name) and PIL_AVAILABLE:
             try:
                 print_slow(Fore.GREEN + f"🗺️  Öffne Netzplan ({name})...")
